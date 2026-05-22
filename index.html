@@ -220,7 +220,7 @@ html,body{background:#050810;font-family:'Noto Sans TC',sans-serif;color:var(--t
   <div class="h2">本季<em>歐米為英業達</em>做了什麼</div>
   <div class="g2" style="margin-top:16px">
     <div class="card" style="display:flex;flex-direction:column;gap:0">
-      <div style="font-size:11px;color:var(--mu);font-family:'DM Mono',monospace;letter-spacing:1px;margin-bottom:12px">技術服務實績（翻譯成業務語言）</div>
+      <div style="font-size:11px;color:var(--mu);font-family:'DM Mono',monospace;letter-spacing:1px;margin-bottom:12px">技術服務實績</div>
       <div class="srow"><div class="stch">攻擊阻擋</div><div class="sval">中國、香港、泰國、法國等多國 IP 持續嘗試入侵，<strong>全數觸發 WAF 規則並成功阻擋</strong>，英業達對外服務零中斷</div></div>
       <div class="srow"><div class="stch">主動偵測</div><div class="sval">Cloudflare 規則主動識別 <strong>inventectj.com</strong> 遭中國 IP 持續針對攻擊（2月、3月各次），客戶無感知情況下排除</div></div>
       <div class="srow"><div class="stch">服務事件</div><div class="sval">本季共處理 <strong>21 件</strong>技術服務需求，涵蓋規則配置、帳號管理、域名新增/刪除，<strong>全數結案</strong></div></div>
@@ -576,6 +576,8 @@ const BOX_SEL  = '.card,.stat,.topic-badge,.nitem,.feat';
 const HEAD_SEL = '.tag,.h2,.qblock';
 
 function getBuildUnits(slideEl) {
+  // Cover slide: show all content at once, no step-by-step
+  if (slideEl.id === 's1') return [];
   const sb = slideEl.querySelector('.sb');
   if (!sb) return [];
   const units = [];
