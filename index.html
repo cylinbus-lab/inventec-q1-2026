@@ -512,37 +512,33 @@ html,body{background:#050810;font-family:'Noto Sans TC',sans-serif;color:var(--t
   <div class="tag">08 · LOOKING AHEAD</div>
   <div class="h2">下一季，<em>我們建議優先處理這幾件事</em></div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px;flex:1;align-content:start">
-    <div class="nitem" style="border-color:rgba(255,82,82,0.3);background:rgba(255,82,82,0.04)">
-      <div class="nnum" style="color:var(--rd);opacity:0.9">01</div>
-      <div><div class="ntitle" style="color:var(--rd)">aimobile — Malware/Web Shell 持續觀察</div><div class="ndesc">4月偵測到加拿大 IP 惡意行為，屬 Managed Ruleset 範疇，Cloudflare 將視規則成熟度自動調整。前兩月未見相同情況，建議後續持續觀察；英業達如有疑慮，可<strong style="color:var(--rd)">自行評估</strong>是否手動切換封鎖。</div></div>
-    </div>
-    <div class="nitem" style="border-color:rgba(167,139,250,0.25);background:rgba(167,139,250,0.04)">
-      <div class="nnum" style="color:var(--pu);opacity:0.9">03</div>
-      <div><div class="ntitle" style="color:var(--pu)">TLS 憑證效期縮短——非 Cloudflare 域名，準備好了嗎？</div><div class="ndesc">2029年全面縮短至 <strong style="color:var(--pu)">47 天</strong>，Cloudflare 域名自動更新，其他伺服器憑證需提早規劃。<strong style="color:var(--pu)">歐米有完整自動化方案。</strong></div></div>
-    </div>
     <div class="nitem">
       <div class="nnum">01</div>
       <div><div class="ntitle">.git / .svn 版本控制目錄封鎖</div><div class="ndesc">4月多國 IP 持續自動化掃描，AI 攻擊工具典型手法。建議建立防護規則，避免原始碼外洩。</div></div>
-    </div>
-    <div class="nitem" style="border-color:rgba(0,212,170,0.25);background:rgba(0,212,170,0.04)">
-      <div class="nnum" style="color:var(--tl);opacity:0.8">↗</div>
-      <div><div class="ntitle" style="color:var(--tl)">【建議深入討論】API 安全深度評估——Noname POC 後，下一步？</div><div class="ndesc">流量地圖點亮後，才是真正考驗的開始。是否有異常 API？影子 API？CYBERSEC 2026 指出這是製造業最大資安盲點。歐米建議安排專題報告。</div></div>
     </div>
     <div class="nitem">
       <div class="nnum">02</div>
       <div><div class="ntitle">源站穩定性強化——減少 522 error</div><div class="ndesc">本季多次 522 與攻擊事件混在一起難以區分。建議強化源站容量或搭配緩存策略，讓防護事件更清晰。</div></div>
     </div>
     <div class="nitem" style="border-color:rgba(167,139,250,0.25);background:rgba(167,139,250,0.04)">
-      <div class="nnum" style="color:var(--pu);opacity:0.8">↗</div>
-      <div><div class="ntitle" style="color:var(--pu)">【架構延伸方向】零信任架構——英業達已握有起點門票</div><div class="ndesc">WAF + Noname API 可視化，正是零信任架構最扎實的起跑點。CYBERSEC 2026 最熱門議題。歐米已規劃「架構整合評估」，適合安排深聊。</div></div>
+      <div class="nnum" style="color:var(--pu);opacity:0.9">03</div>
+      <div><div class="ntitle" style="color:var(--pu)">TLS 憑證效期縮短——非 Cloudflare 域名，準備好了嗎？</div><div class="ndesc">2029年全面縮短至 <strong style="color:var(--pu)">47 天</strong>，Cloudflare 域名自動更新，其他伺服器憑證需提早規劃。<strong style="color:var(--pu)">歐米有完整自動化方案。</strong></div></div>
     </div>
-    <div class="nitem" style="border-color:rgba(0,212,170,0.25);background:rgba(0,212,170,0.04);grid-column:span 2">
-      <div class="nnum" style="color:var(--tl);opacity:0.8">04</div>
-      <div style="width:100%"><div class="ntitle" style="color:var(--tl)">Cloud 節費評估——歐米協助盤點雲端資源使用效率</div><div class="ndesc">隨著雲端服務費用持續增長，歐米可協助英業達進行雲端資源使用現況審計，找出重複、閒置或超額配置的資源項目，評估最佳化方案。此項服務不影響現有防護架構，建議下季啟動初步盤點。</div></div>
+    <div class="nitem" style="border-color:rgba(255,82,82,0.3);background:rgba(255,82,82,0.04)">
+      <div class="nnum" style="color:var(--rd);opacity:0.9">⚠</div>
+      <div><div class="ntitle" style="color:var(--rd)">aimobile — Malware/Web Shell 持續觀察</div><div class="ndesc">4月偵測到加拿大 IP 惡意行為，屬 Managed Ruleset 範疇，Cloudflare 將視規則成熟度自動調整。前兩月未見相同情況，建議後續持續觀察；如有疑慮可<strong style="color:var(--rd)">自行評估</strong>是否切換封鎖。</div></div>
+    </div>
+    <div class="nitem" style="border-color:rgba(0,212,170,0.25);background:rgba(0,212,170,0.04)">
+      <div class="nnum" style="color:var(--tl);opacity:0.8">↗</div>
+      <div><div class="ntitle" style="color:var(--tl)">API 安全深度評估——Noname POC 後，下一步？</div><div class="ndesc">流量地圖點亮後，才是真正考驗的開始。是否有異常 API？影子 API？CYBERSEC 2026 指出這是製造業最大資安盲點。歐米建議安排專題報告。</div></div>
+    </div>
+    <div class="nitem" style="border-color:rgba(167,139,250,0.25);background:rgba(167,139,250,0.04)">
+      <div class="nnum" style="color:var(--pu);opacity:0.8">↗</div>
+      <div><div class="ntitle" style="color:var(--pu)">零信任架構——英業達已握有起點門票</div><div class="ndesc">WAF + Noname API 可視化，正是零信任架構最扎實的起跑點。CYBERSEC 2026 最熱門議題。歐米已規劃「架構整合評估」，適合安排深聊。</div></div>
     </div>
   </div>
   <div class="qblock" style="margin-top:8px;padding-left:14px;border-left-width:2px">
-    「英業達這一季的攻防紀錄，已經是最完整的起點說明書——<em>下一步怎麼走，歐米備好了完整方案，您隨時一聲，我們立刻開始。</em>」
+    「這一季走過的攻防，為下一步的架構提供了清晰的輪廓——<em>下一步怎麼走，歐米備好了完整方案，您隨時一聲，我們立刻開始。</em>」
   </div>
 </div>
 <div class="sf"><div class="sfl">Omni CONFIDENTIAL · FOR INVENTEC INTERNAL USE ONLY</div><div class="sfr">09 / 09</div></div>
