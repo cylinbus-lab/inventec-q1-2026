@@ -130,7 +130,16 @@ html,body{background:#050810;font-family:'Noto Sans TC',sans-serif;color:var(--t
 #ap-btn.on{background:rgba(246,130,31,0.12);border-color:var(--or);color:var(--or)}
 #scaler{position:absolute;top:50%;left:50%;transform-origin:top left}
 #hint{position:fixed;bottom:4px;right:10px;font-family:'DM Mono',monospace;font-size:9px;color:rgba(122,138,153,0.35);letter-spacing:1px}
-@media (max-width:900px){#hint{display:none}}
+#mhint{display:none;position:fixed;bottom:72px;left:50%;transform:translateX(-50%);font-family:'DM Mono',monospace;font-size:10px;color:rgba(122,138,153,0.55);letter-spacing:1px;white-space:nowrap;pointer-events:none}
+@media (max-width:900px){
+  #hint{display:none}
+  #mhint{display:block}
+  .nbtn{width:44px;height:44px;font-size:18px}
+  #ap-btn{width:44px;height:44px;font-size:14px}
+  .dot{width:7px;height:7px}
+  .dot.active{width:22px}
+  .scnt{font-size:12px}
+}
 </style>
 </head>
 <body>
@@ -557,6 +566,7 @@ html,body{background:#050810;font-family:'Noto Sans TC',sans-serif;color:var(--t
   <button id="ap-btn" title="自動播放 [P]" onclick="toggleAP()">▶</button>
 </div>
 <div id="hint">→ / 空白鍵：逐段顯示 · ← 退回 · 圓點跳頁 · P 自動播放</div>
+<div id="mhint">點左半畫面 ← 上一步 ｜ 點右半 → 下一步</div>
 </div>
 
 <script>
@@ -782,13 +792,17 @@ function scale() {
 scale();
 window.addEventListener('resize', scale);
 
-// ── Touch swipe (left = advance, right = retreat) ──────────────────────────
+// ── Touch: swipe OR tap to navigate ───────────────────────────────────────
 let _tx = 0, _ty = 0;
 document.addEventListener('touchstart', e => { _tx = e.touches[0].clientX; _ty = e.touches[0].clientY; }, {passive:true});
 document.addEventListener('touchend',   e => {
-  const dx = e.changedTouches[0].clientX - _tx;
-  const dy = e.changedTouches[0].clientY - _ty;
-  if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) dx < 0 ? advance() : retreat();
+  const t  = e.changedTouches[0];
+  const dx = t.clientX - _tx, dy = t.clientY - _ty;
+  if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+    dx < 0 ? advance() : retreat();            // swipe left/right
+  } else if (Math.abs(dx) < 12 && Math.abs(dy) < 12) {
+    t.clientX > window.innerWidth / 2 ? advance() : retreat(); // tap right/left half
+  }
 }, {passive:true});
 
 // ── Init ───────────────────────────────────────────────
