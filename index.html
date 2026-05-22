@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>英業達 × 歐米｜Cloudflare 季度回顧 2026 Q1 · ANIMATED</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Bebas+Neue&family=DM+Mono:wght@400;500&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --or:#F6821F;--dk:#0D1117;--cd:#111820;--bdm:rgba(255,255,255,0.08);
+  --bd:rgba(246,130,31,0.25);--tx:#E8EDF2;--mu:#7A8A99;
+  --tl:#00D4AA;--rd:#FF5252;--bl:#4A9EFF;--pu:#A78BFA;
+}
+html,body{background:#050810;font-family:'Noto Sans TC',sans-serif;color:var(--tx);height:100%;overflow:hidden}
+#app{width:100vw;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative}
+#stage{width:1280px;height:720px;position:relative;overflow:hidden;box-shadow:0 0 80px rgba(246,130,31,0.07)}
+
+/* ── Progress bar ── */
+#pbar{position:absolute;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--or),rgba(246,130,31,0.55));z-index:200;border-radius:0 2px 2px 0;box-shadow:0 0 10px rgba(246,130,31,0.55);transition:width 0.45s cubic-bezier(0.25,0.46,0.45,0.94);pointer-events:none}
+
+/* ── Auto-play badge ── */
+#ap-badge{position:absolute;top:68px;right:14px;z-index:200;font-family:'DM Mono',monospace;font-size:9px;color:var(--or);background:rgba(246,130,31,0.08);border:1px solid rgba(246,130,31,0.3);padding:3px 10px 3px 8px;border-radius:2px;letter-spacing:1px;display:flex;align-items:center;gap:5px;opacity:0;transition:opacity 0.3s;pointer-events:none}
+#ap-badge.on{opacity:1}
+#ap-dot{width:5px;height:5px;border-radius:50%;background:var(--or);animation:apBlink 1s ease-in-out infinite}
+@keyframes apBlink{0%,100%{opacity:1}50%{opacity:0.2}}
+
+/* ── Slide base ── */
+.slide{position:absolute;inset:0;display:none;flex-direction:column;background:var(--dk)}
+.slide.active{display:flex}
+.slide::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(246,130,31,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(246,130,31,0.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+.slide>*{position:relative;z-index:1}
+
+/* ── Slide transition animations ── */
+.slide.anm-er{display:flex!important;animation:sEnterR 0.42s cubic-bezier(0.25,0.46,0.45,0.94) both}
+.slide.anm-el{display:flex!important;animation:sEnterL 0.42s cubic-bezier(0.25,0.46,0.45,0.94) both}
+.slide.anm-xl{display:flex!important;animation:sExitL  0.36s cubic-bezier(0.55,0,1,0.45) both}
+.slide.anm-xr{display:flex!important;animation:sExitR  0.36s cubic-bezier(0.55,0,1,0.45) both}
+@keyframes sEnterR{from{opacity:0;transform:translateX(64px)}to{opacity:1;transform:translateX(0)}}
+@keyframes sEnterL{from{opacity:0;transform:translateX(-64px)}to{opacity:1;transform:translateX(0)}}
+@keyframes sExitL {from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(-64px)}}
+@keyframes sExitR {from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(64px)}}
+
+/* ── Content entrance ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── Component styles (identical to final) ── */
+.sh{height:60px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;padding:0 52px;background:rgba(13,17,23,0.95);flex-shrink:0}
+.hl{display:flex;align-items:center;gap:14px}
+.logo{display:flex;align-items:center;gap:8px;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:var(--or)}
+.logo svg{width:26px;height:18px}
+.hdiv{width:1px;height:22px;background:var(--bdm)}
+.htitle{font-size:12px;color:var(--mu);letter-spacing:0.5px}
+.hr{font-family:'DM Mono',monospace;font-size:11px;color:var(--mu);letter-spacing:1px}
+.sb{flex:1;padding:36px 52px 28px;display:flex;flex-direction:column;overflow:hidden}
+.sf{height:44px;border-top:1px solid var(--bdm);display:flex;align-items:center;justify-content:space-between;padding:0 52px;flex-shrink:0}
+.sfl{font-size:10px;color:var(--mu);font-family:'DM Mono',monospace;letter-spacing:0.5px}
+.sfr{font-size:11px;color:var(--mu);font-family:'DM Mono',monospace}
+.tag{display:inline-block;font-size:10px;font-family:'DM Mono',monospace;letter-spacing:1.5px;text-transform:uppercase;color:var(--or);border:1px solid var(--bd);padding:3px 10px;border-radius:2px;margin-bottom:12px}
+.tag.tl{color:var(--tl);border-color:rgba(0,212,170,0.3)}
+.tag.rd{color:var(--rd);border-color:rgba(255,82,82,0.3)}
+.tag.bl{color:var(--bl);border-color:rgba(74,158,255,0.3)}
+.tag.pu{color:var(--pu);border-color:rgba(167,139,250,0.3)}
+.h2{font-size:28px;font-weight:700;line-height:1.25;color:var(--tx);margin-bottom:4px}
+.h2 em{font-style:normal;color:var(--or)}
+.card{background:var(--cd);border:1px solid var(--bdm);border-radius:4px;padding:16px 20px}
+.card.hl{border-color:var(--bd);background:linear-gradient(135deg,rgba(246,130,31,0.06) 0%,var(--cd) 60%)}
+.stat{background:var(--cd);border:1px solid var(--bdm);border-radius:4px;padding:14px 18px;display:flex;flex-direction:column;gap:4px}
+.snum{font-family:'Bebas Neue',sans-serif;font-size:38px;line-height:1;color:var(--or)}
+.snum.tl{color:var(--tl)}.snum.rd{color:var(--rd)}.snum.bl{color:var(--bl)}
+.slbl{font-size:11px;color:var(--mu);line-height:1.5;font-weight:300}
+.ssrc{font-family:'DM Mono',monospace;font-size:9px;color:var(--mu);margin-top:5px;opacity:0.6}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:18px;flex:1}
+.g2x2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.srow{display:grid;grid-template-columns:100px 1fr;gap:8px;padding:9px 0;border-bottom:1px solid var(--bdm);align-items:start}
+.srow:last-child{border-bottom:none}
+.stch{font-family:'DM Mono',monospace;font-size:10px;color:var(--mu);padding-top:2px;line-height:1.5}
+.sval{font-size:12px;color:var(--tx);line-height:1.6}
+.sval strong{color:var(--or);font-weight:500}
+.sval.warn strong{color:var(--rd)}
+.ritem{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--bdm)}
+.ritem:last-child{border-bottom:none}
+.rarr{color:var(--or);font-size:11px;margin-top:3px;flex-shrink:0}
+.rarr.rd{color:var(--rd)}
+.rtxt{font-size:12px;color:var(--tx);line-height:1.6}
+.rtxt span{color:var(--mu);font-size:11px;display:block;margin-top:1px}
+.feat{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--bdm)}
+.feat:last-child{border-bottom:none}
+.ficon{width:32px;height:32px;border-radius:4px;background:rgba(246,130,31,0.1);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--or);font-size:16px}
+.ficon.tl{background:rgba(0,212,170,0.1);border-color:rgba(0,212,170,0.25);color:var(--tl)}
+.ficon.bl{background:rgba(74,158,255,0.1);border-color:rgba(74,158,255,0.25);color:var(--bl)}
+.ficon.rd{background:rgba(255,82,82,0.1);border-color:rgba(255,82,82,0.25);color:var(--rd)}
+.ftitle{font-size:13px;font-weight:500;margin-bottom:3px}
+.fdesc{font-size:11px;color:var(--mu);line-height:1.6}
+.nitem{padding:13px 18px;background:var(--cd);border:1px solid var(--bdm);border-radius:4px;display:flex;gap:12px;align-items:flex-start}
+.nnum{font-family:'Bebas Neue',sans-serif;font-size:26px;line-height:1;color:var(--or);opacity:0.35;flex-shrink:0;width:20px}
+.ntitle{font-size:13px;font-weight:500;margin-bottom:4px}
+.ndesc{font-size:11px;color:var(--mu);line-height:1.7}
+.qblock{font-size:14px;font-weight:300;color:var(--tx);line-height:1.85;border-left:3px solid var(--or);padding-left:16px;margin-top:auto}
+.qblock em{font-style:normal;color:var(--or)}
+.rdot{width:7px;height:7px;border-radius:50%;background:var(--or);margin-top:5px;flex-shrink:0}
+.rdot.tl{background:var(--tl)}.rdot.bl{background:var(--bl)}
+.bpill{font-size:11px;color:var(--tx);padding:6px 10px;background:rgba(255,255,255,0.03);border:1px solid var(--bdm);border-radius:2px;display:flex;align-items:center;gap:6px}
+.warn-badge{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-family:'DM Mono',monospace;padding:2px 8px;border-radius:2px;background:rgba(255,82,82,0.1);border:1px solid rgba(255,82,82,0.3);color:var(--rd);margin-left:6px;vertical-align:middle}
+.ok-badge{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-family:'DM Mono',monospace;padding:2px 8px;border-radius:2px;background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.3);color:var(--tl);margin-left:6px;vertical-align:middle}
+.cover-bg{position:absolute;right:52px;bottom:70px;font-family:'Bebas Neue',sans-serif;font-size:190px;line-height:1;color:rgba(246,130,31,0.04);letter-spacing:-4px;pointer-events:none;user-select:none}
+.topic-badge{display:flex;flex-direction:column;gap:3px;padding:13px 15px;background:rgba(255,255,255,0.025);border:1px solid var(--bdm);border-radius:4px;position:relative;overflow:hidden}
+.topic-badge::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--or)}
+.topic-badge.tl::before{background:var(--tl)}
+.topic-badge.rd::before{background:var(--rd)}
+.topic-badge.bl::before{background:var(--bl)}
+.topic-badge.pu::before{background:var(--pu)}
+.tb-label{font-size:9px;font-family:'DM Mono',monospace;letter-spacing:1.2px;color:var(--mu);text-transform:uppercase;margin-bottom:4px}
+.tb-title{font-size:13px;font-weight:500;color:var(--tx);line-height:1.4;margin-bottom:4px}
+.tb-desc{font-size:11px;color:var(--mu);line-height:1.6}
+.tb-link{font-size:10px;font-family:'DM Mono',monospace;color:var(--or);margin-top:5px;opacity:0.7}
+
+/* ── Nav ── */
+#nav{display:flex;align-items:center;gap:10px;margin-top:14px}
+.nbtn{width:36px;height:36px;border-radius:4px;border:1px solid rgba(246,130,31,0.3);background:rgba(246,130,31,0.05);color:var(--or);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;font-family:monospace}
+.nbtn:hover{background:rgba(246,130,31,0.15);border-color:var(--or)}
+.nbtn:disabled{opacity:0.3;cursor:default}
+.dots{display:flex;gap:7px;align-items:center}
+.dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.18);cursor:pointer;transition:all 0.25s}
+.dot.active{background:var(--or);width:18px;border-radius:3px;box-shadow:0 0 8px rgba(246,130,31,0.5)}
+.scnt{font-family:'DM Mono',monospace;font-size:11px;color:var(--mu);letter-spacing:1px;min-width:36px;text-align:center}
+#ap-btn{width:36px;height:36px;border-radius:4px;border:1px solid rgba(246,130,31,0.25);background:transparent;color:rgba(246,130,31,0.5);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;font-family:monospace}
+#ap-btn:hover{background:rgba(246,130,31,0.1);border-color:var(--or);color:var(--or)}
+#ap-btn.on{background:rgba(246,130,31,0.12);border-color:var(--or);color:var(--or)}
+#hint{position:absolute;bottom:5px;right:0;font-family:'DM Mono',monospace;font-size:9px;color:rgba(122,138,153,0.4);letter-spacing:1px}
+</style>
+</head>
+<body>
+<div id="app">
+<div id="scaler">
+<div id="stage">
+
+<div id="pbar"></div>
+<div id="ap-badge"><div id="ap-dot"></div>AUTO-PLAY · 6s</div>
+
+<!-- ══ S1: COVER ══ -->
+<div class="slide active" id="s1">
+<div class="sh">
+  <div class="hl">
+    <div class="logo"><svg viewBox="0 0 22 22" fill="none" width="20" height="20"><path d="M11 2L3 6v5c0 4.5 3.5 8.7 8 10 4.5-1.3 8-5.5 8-10V6L11 2z" fill="rgba(246,130,31,0.12)" stroke="#F6821F" stroke-width="1.5"/><path d="M7.5 11l2.5 2.5 5-5" stroke="#F6821F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="font-family:'Noto Sans TC',sans-serif;font-weight:700;font-size:14px;letter-spacing:1px">歐米英泰</span></div>
+    <div class="hdiv"></div><div class="htitle">季度服務回顧報告</div>
+  </div>
+  <div class="hr">2026 Q1 · CONFIDENTIAL</div>
+</div>
+<div class="sb" style="justify-content:center;position:relative">
+  <div class="cover-bg">Q1</div>
+  <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--or);letter-spacing:3px;text-transform:uppercase;margin-bottom:18px">Omni × INVENTEC · QUARTERLY SERVICE REVIEW</div>
+  <div style="font-size:56px;font-weight:700;line-height:1.1;letter-spacing:-1px;margin-bottom:10px">英業達<br><span style="color:var(--or)">資安服務</span><br>季度回顧</div>
+  <div style="font-size:13px;color:var(--mu);font-weight:300;margin-bottom:8px">防護成效 · 技術服務 · 產業觀點 · 未來方向</div><div style="font-size:11px;color:var(--mu);font-family:'DM Mono',monospace;letter-spacing:0.5px;margin-bottom:28px;opacity:0.6">Managed by Cloudflare · Delivered by 歐米英泰</div>
+  <div style="display:flex;gap:26px;align-items:center">
+    <div><div style="font-size:9px;font-family:'DM Mono',monospace;letter-spacing:1.5px;color:var(--mu);text-transform:uppercase;margin-bottom:3px">報告期間</div><div style="font-size:13px;font-weight:500">2026 Q1（2月–4月）</div></div>
+    <div style="width:1px;height:26px;background:var(--bdm)"></div>
+    <div><div style="font-size:9px;font-family:'DM Mono',monospace;letter-spacing:1.5px;color:var(--mu);text-transform:uppercase;margin-bottom:3px">服務客戶</div><div style="font-size:13px;font-weight:500">英業達股份有限公司</div></div>
+    <div style="width:1px;height:26px;background:var(--bdm)"></div>
+    <div><div style="font-size:9px;font-family:'DM Mono',monospace;letter-spacing:1.5px;color:var(--mu);text-transform:uppercase;margin-bottom:3px">管理域名</div><div style="font-size:13px;font-weight:500">8 個域名</div></div>
+    <div style="width:1px;height:26px;background:var(--bdm)"></div>
+    <div><div style="font-size:9px;font-family:'DM Mono',monospace;letter-spacing:1.5px;color:var(--mu);text-transform:uppercase;margin-bottom:3px">服務廠商</div><div style="font-size:13px;font-weight:500">歐米英泰智慧服務股份有限公司</div></div>
+  </div>
+</div>
+<div class="sf"><div class="sfl">Omni CONFIDENTIAL · FOR INVENTEC INTERNAL USE ONLY</div><div class="sfr">01 / 09</div></div>
+</div>
+
+<!-- ══ S2: WHO IS OIMC ══ -->
+<div class="slide" id="s2">
+<div class="sh">
+  <div class="hl"><div class="logo"><svg viewBox="0 0 22 22" fill="none" width="20" height="20"><path d="M11 2L3 6v5c0 4.5 3.5 8.7 8 10 4.5-1.3 8-5.5 8-10V6L11 2z" fill="rgba(246,130,31,0.12)" stroke="#F6821F" stroke-width="1.5"/><path d="M7.5 11l2.5 2.5 5-5" stroke="#F6821F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="font-family:'Noto Sans TC',sans-serif;font-weight:700;font-size:14px;letter-spacing:1px">歐米英泰</span></div><div class="hdiv"></div><div class="htitle">歐米是誰</div></div>
+  <div class="hr">ABOUT OIMC</div>
+</div>
+<div class="sb">
+  <div class="tag">01 · ABOUT US</div>
+  <div class="h2">我們不只是供應商，<em>我們是英業達的延伸戰力</em></div>
+  <div class="g2" style="margin-top:16px">
+    <div class="card hl" style="display:flex;flex-direction:column">
+      <div style="font-size:11px;color:var(--or);font-family:'DM Mono',monospace;letter-spacing:1px;margin-bottom:12px">目前為英業達服務</div>
+      <div class="ritem"><div class="rdot"></div><div><div style="font-size:13px;font-weight:500;margin-bottom:3px">Cloudflare WAF 日常維運</div><div style="font-size:11px;color:var(--mu);line-height:1.6">規則管理、攻擊分析、工程師主動巡查。本季處理 <strong style="color:var(--or)">21 件</strong>技術服務事件，均已完成結案。</div></div></div>
+      <div class="ritem"><div class="rdot tl"></div><div><div style="font-size:13px;font-weight:500;margin-bottom:3px">Noname API 安全評估 POC</div><div style="font-size:11px;color:var(--mu);line-height:1.6">已順利完成，成效優異，首次為英業達點亮完整的 API 流量地圖。</div></div></div>
+      <div class="ritem" style="border-bottom:none"><div class="rdot bl"></div><div><div style="font-size:13px;font-weight:500;margin-bottom:3px">自研維運輔助系統（歐米自建）</div><div style="font-size:11px;color:var(--mu);line-height:1.6">歐米投資研發，提供即時可視化儀表板；工程師主動巡查、提早發現異常並通報。</div></div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div class="card">
+        <div style="font-size:11px;color:var(--mu);font-family:'DM Mono',monospace;letter-spacing:1px;margin-bottom:10px">本季管理域名（8個）</div>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+            <div class="bpill" style="font-size:10px">inventec.com</div>
+            <div class="bpill" style="font-size:10px">inventec.com.tw</div>
+            <div class="bpill" style="font-size:10px">inventec.com.cn</div>
+            <div class="bpill" style="font-size:10px">inventectj.com</div>
+            <div class="bpill" style="font-size:10px">aimobile.com.tw</div>
+            <div class="bpill" style="font-size:10px">inventext.com.tw</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:2px">
+            <div class="bpill" style="font-size:10px;border-color:rgba(0,212,170,0.3)">vrstate.com <span style="color:var(--tl);font-size:9px">3/31 新增</span></div>
+            <div class="bpill" style="font-size:10px;border-color:rgba(255,82,82,0.2);color:var(--mu)"><s>greensolution.tw</s> <span style="color:var(--rd);font-size:9px">4/1 刪除</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="background:rgba(246,130,31,0.05);border-color:var(--bd);flex:1;display:flex;align-items:center">
+        <div style="font-size:13px;color:var(--tx);line-height:1.85;font-weight:300">「歐米的定位是英業達資安架構的<strong style="color:var(--or);font-weight:500">長期夥伴</strong>——Cloudflare 的防護 24 小時自動運行，工程師主動巡查監控，問題在英業達察覺之前就已處理完成。<em style="color:var(--or)">不是等你出問題才聯絡你，而是讓你感覺不到問題。</em>」</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="sf"><div class="sfl">Omni CONFIDENTIAL · FOR INVENTEC INTERNAL USE ONLY</div><div class="sfr">02 / 09</div></div>
+</div>
+
+<!-- ══ S3: THIS QUARTER ══ -->
+<div class="slide" id="s3">
+<div class="sh">
+  <div class="hl"><div class="logo"><svg viewBox="0 0 22 22" fill="none" width="20" height="20"><path d="M11 2L3 6v5c0 4.5 3.5 8.7 8 10 4.5-1.3 8-5.5 8-10V6L11 2z" fill="rgba(246,130,31,0.12)" stroke="#F6821F" stroke-width="1.5"/><path d="M7.5 11l2.5 2.5 5-5" stroke="#F6821F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="font-family:'Noto Sans TC',sans-serif;font-weight:700;font-size:14px;letter-spacing:1px">歐米英泰</span></div><div class="hdiv"></div><div class="htitle">本季服務實績</div></div>
+  <div class="hr">2026 Q1 SERVICE HIGHLIGHTS</div>
+</div>
+<div class="sb">
+  <div class="tag tl">02 · THIS QUARTER</div>
+  <div class="h2">本季<em>歐米為英業達</em>做了什麼</div>
+  <div class="g2" style="margin-top:16px">
+    <div class="card" style="display:flex;flex-direction:column;gap:0">
+      <div style="font-size:11px;color:var(--mu);font-family:'DM Mono',monospace;letter-spacing:1px;margin-bottom:12px">技術服務實績（翻譯成業務語言）</div>
+      <div class="srow"><div class="stch">攻擊阻擋</div><div class="sval">中國、香港、泰國、法國等多國 IP 持續嘗試入侵，<strong>全數觸發 WAF 規則並成功阻擋</strong>，英業達對外服務零中斷</div></div>
+      <div class="srow"><div class="stch">主動偵測</div><div class="sval">Cloudflare 規則主動識別 <strong>inventectj.com</strong> 遭中國 IP 持續針對攻擊（2月、3月各次），客戶無感知情況下排除</div></div>
+      <div class="srow"><div class="stch">服務事件</div><div class="sval">本季共處理 <strong>21 件</strong>技術服務需求，涵蓋規則配置、帳號管理、域名新增/刪除，<strong>全數結案</strong></div></div>
+      <div class="srow"><div class="stch">域名管理</div><div class="sval">協助新增 <strong>vrstate.com</strong>（3/31）、下線 <strong>greensolution.tw</strong>（4/1），並協助切換至企業帳號以啟用 WAF 服務</div></div>
+      <div class="srow" style="border-bottom:none"><div class="stch" style="color:var(--rd)">⚠ 觀察中</div><div class="sval warn"><strong>aimobile.com.tw</strong> 4月偵測到 Malware / Web Shell，屬 Managed Ruleset 範疇，Cloudflare 將視規則成熟度自動調整；如有疑慮可<strong>自行評估</strong>是否切換封鎖，後續持續觀察</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div class="g2x2">
+        <div class="stat"><div class="snum">21</div><div class="slbl">本季技術服務<br>事件處理件數</div></div>
+        <div class="stat"><div class="snum tl">100<span style="font-size:18px">%</span></div><div class="slbl">事件結案率<br>無未結案件</div></div>
+        <div class="stat"><div class="snum">6</div><div class="slbl">攻擊來源國<br>中港泰法加羅</div></div>
+        <div class="stat"><div class="snum rd">0</div><div class="slbl">業務中斷<br>事件次數</div></div>
+      </div>
+      <div class="card" style="background:rgba(255,82,82,0.04);border-color:rgba(255,82,82,0.2);flex:1">
+        <div style="font-size:10px;color:var(--rd);font-family:'DM Mono',monospace;letter-spacing:1px;margin-bottom:7px">⚠ 本季技術觀察</div>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <div style="font-size:11px;color:var(--tx);line-height:1.6;padding:6px 10px;background:rgba(255,82,82,0.06);border-radius:2px;border-left:2px solid var(--rd)">aimobile Malware/Web Shell 屬 <strong style="color:var(--rd)">Managed Ruleset</strong> 範疇，Cloudflare 將視規則成熟度自動調整；如有疑慮可自行評估是否切換封鎖模式</div>
+          <div style="font-size:11px;color:var(--tx);line-height:1.6;padding:6px 10px;background:rgba(255,255,255,0.02);border-radius:2px;border-left:2px solid var(--mu)">版本控制目錄（.git / .svn）Cloudflare 已對此類攻擊直接封鎖；如有疑慮可自行評估是否另加自訂規則</div>
+          <div style="font-size:11px;color:var(--tx);line-height:1.6;padding:6px 10px;background:rgba(255,255,255,0.02);border-radius:2px;border-left:2px solid var(--mu)">源站穩定性需加強，本季發生多次 522 error，源站未回應是主因</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="sf"><div class="sfl">Omni CONFIDENTIAL · FOR INVENTEC INTERNAL USE ONLY</div><div class="sfr">03 / 09</div></div>
+</div>
+
+<!-- ══ S4: ATTACK BREAKDOWN ══ -->
+<div class="slide" id="s4">
+<div class="sh">
+  <div class="hl"><div class="logo"><svg viewBox="0 0 22 22" fill="none" width="20" height="20"><path d="M11 2L3 6v5c0 4.5 3.5 8.7 8 10 4.5-1.3 8-5.5 8-10V6L11 2z" fill="rgba(246,130,31,0.12)" stroke="#F6821F" stroke-width="1.5"/><path d="M7.5 11l2.5 2.5 5-5" stroke="#F6821F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="font-family:'Noto Sans TC',sans-serif;font-weight:700;font-size:14px;letter-spacing:1px">歐米英泰</span></div><div class="hdiv"></div><div class="htitle">攻擊事件明細</div></div>
+  <div class="hr">ATTACK EVENT DETAIL</div>
+</div>
+<div class="sb">
+  <div class="tag rd">03 · ATTACK EVENTS</div>
+  <div class="h2">本季攻擊來源分布與<em>防禦成效</em></div>
+  <div class="g2" style="margin-top:16px">
+    <div style="display:flex;flex-direction:column;gap:0">
+      <div style="font-size:11px;color:var(--mu);font-family:'DM Mono',monospace;letter-spacing:1px;margin-bottom:12px">各月攻擊事件摘要</div>
+      <div class="srow">
+        <div class="stch" style="color:var(--or)">2月</div>
+        <div class="sval">香港 IP 持續針對 <strong>inventec.com</strong>（4次）、aimobile.com.tw 發動攻擊；天津廠 <strong>inventectj.com</strong> 遭中國 IP 攻擊 2次 — 全數阻擋 <span class="ok-badge">✓ BLOCKED</span></div>
+      </div>
+      <div class="srow">
+        <div class="stch" style="color:var(--or)">3月</div>
+        <div class="sval">泰國 IP 對 inventec.com 發動 Rate Limiting 攻擊（3/4、3/30）；法國 IP 開始出現，攻擊 aimobile、inventec.com.tw；inventectj.com 再遭中國、香港 IP 攻擊 — 全數阻擋 <span class="ok-badge">✓ BLOCKED</span></div>
+      </div>
+      <div class="srow" style="border-bottom:none">
+        <div class="stch" style="color:var(--rd)">4月 ⚠</div>
+        <div class="sval">攻擊類型多元化：SQLi、偽造 UA、版本控制資訊外洩、Malware/Web Shell 等；<strong style="color:var(--rd)">aimobile Malware 偵測為 log mode 未阻擋</strong>，其餘均已阻擋 <span class="ok-badge">✓ 大部分阻擋</span></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div class="card" style="flex:0 0 auto">
+        <div style="font-size:11px;color:var(--mu);font-family:'DM Mono',monospace;letter-spacing:1px;margin-bottom:12px">本季攻擊類型</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;align-items:center;gap:8px"><div style="width:8px;height:8px;border-radius:50%;background:var(--rd);flex-shrink:0"></div><div style="font-size:12px">Managed Rules 觸發（最常見）</div></div>
+          <div style="display:flex;align-items:center;gap:8px"><div style="width:8px;height:8px;border-radius:50%;background:var(--or);flex-shrink:0"></div><div style="font-size:12px">Rate Limiting — 泰國 IP 多次觸發</div></div>
+          <div style="display:flex;align-items:center;gap:8px"><div style="width:8px;height:8px;border-radius:50%;background:var(--pu);flex-shrink:0"></div><div style="font-size:12px">SQL Injection（泰國、香港 IP）</div></div>
+          <div style="display:flex;align-items:center;gap:8px"><div style="width:8px;height:8px;border-radius:50%;background:var(--bl);flex-shrink:0"></div><div style="font-size:12px">版本控制資訊外洩（法國、荷蘭、加拿大）</div></div>
+          <div style="display:flex;align-items:center;gap:8px"><div style="width:8px;height:8px;border-radius:50%;background:var(--rd);flex-shrink:0;border:1px dashed var(--rd)"></div><div style="font-size:12px;color:var(--rd)">Malware / Web Shell（加拿大 — 僅 log）⚠</div></div>
+          <div style="display:flex;align-items:center;gap:8px"><div style="width:8px;height:8px;border-radius:50%;background:var(--mu);flex-shrink:0"></div><div style="font-size:12px">偽造 User-Agent</div></div>
+        </div>
+      </div>
+      <div class="card hl" style="flex:1">
+        <div style="font-size:11px;color:var(--or);font-family:'DM Mono',monospace;letter-spacing:1px;margin-bottom:12px">攻擊來源國家 TOP 6</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
+          <div style="text-align:center;padding:8px;background:rgba(255,82,82,0.08);border:1px solid rgba(255,82,82,0.2);border-radius:2px"><div style="font-size:16px margin-bottom:2px">🇨🇳🇭🇰</div><div style="font-size:11px;color:var(--rd);font-weight:500">中國/香港</div><div style="font-size:10px;color:var(--mu)">最持續威脅</div></div>
+          <div style="text-align:center;padding:8px;background:rgba(255,255,255,0.02);border:1px solid var(--bdm);border-radius:2px"><div style="font-size:16px;margin-bottom:2px">🇹🇭</div><div style="font-size:11px;font-weight:500">泰國</div><div style="font-size:10px;color:var(--mu)">Rate Limiting</div></div>
+          <div style="text-align:center;padding:8px;background:rgba(255,255,255,0.02);border:1px solid var(--bdm);border-radius:2px"><div style="font-size:16px;margin-bottom:2px">🇫🇷</div><div style="font-size:11px;font-weight:500">法國</div><div style="font-size:10px;color:var(--mu)">資訊外洩掃描</div></div>
+          <div style="text-align:center;padding:8px;background:rgba(255,255,255,0.02);border:1px solid var(--bdm);border-radius:2px"><div style="font-size:16px;margin-bottom:2px">🇨🇦</div><div style="font-size:11px;font-weight:500">加拿大</div><div style="font-size:10px;color:var(--mu)">Web Shell</div></div>
+          <div style="text-align:center;padding:8px;background:rgba(255,255,255,0.02);border:1px solid var(--bdm);border-radius:2px"><div style="font-size:16px;margin-bottom:2px">🇷🇴</div><div style="font-size:11px;font-weight:500">羅馬尼亞</div><div style="font-size:10px;color:var(--mu)">多次攻擊</div></div>
+          <div style="text-align:center;padding:8px;background:rgba(255,255,255,0.02);border:1px solid var(--bdm);border-radius:2px"><div style="font-size:16px;margin-bottom:2px">🇳🇱</div><div style="font-size:11px;font-weight:500">荷蘭</div><div style="font-size:10px;color:var(--mu)">資訊外洩掃描</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="sf"><div class="sfl">Omni CONFIDENTIAL · FOR INVENTEC INTERNAL USE ONLY</div><div class="sfr">04 / 09</div></div>
+</div>
+
+<!-- ══ S5: THREAT INTELLIGENCE ══ -->
+<div class="slide" id="s5">
+<div class="sh">
+  <div class="hl"><div class="logo"><svg viewBox="0 0 22 22" fill="none" width="20" height="20"><path d="M11 2L3 6v5c0 4.5 3.5 8.7 8 10 4.5-1.3 8-5.5 8-10V6L11 2z" fill="rgba(246,130,31,0.12)" stroke="#F6821F" stroke-width="1.5"/><path d="M7.5 11l2.5 2.5 5-5" stroke="#F6821F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="font-family:'Noto Sans TC',sans-serif;font-weight:700;font-size:14px;letter-spacing:1px">歐米英泰</span></div><div class="hdiv"></div><div class="htitle">產業威脅情資</div></div>
+  <div class="hr">THREAT INTELLIGENCE</div>
+</div>
+<div class="sb">
+  <div class="tag rd">04 · THREAT INTELLIGENCE</div>
+  <div class="h2">台灣製造業，<em>現在是駭客的首選目標</em></div>
+  <div class="g2" style="margin-top:16px">
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div class="g2x2">
+        <div class="stat"><div class="snum">4,129</div><div class="slbl">次/週｜台灣遭受攻擊<br>亞太地區榜首</div><div class="ssrc">Check Point Research 2024</div></div>
+        <div class="stat"><div class="snum rd">+121<span style="font-size:18px">%</span></div><div class="slbl">2025年全球DDoS年增幅<br>製造業佔比超過50%</div><div class="ssrc">Cloudflare 2026 Threat Report</div></div>
+        <div class="stat"><div class="snum">56<span style="font-size:18px">%</span></div><div class="slbl">製造業認為勒索攻擊<br>今年「不可避免」</div><div class="ssrc">iThome 2024 資安大調查</div></div>
+        <div class="stat"><div class="snum bl">73<span style="font-size:18px">萬</span></div><div class="slbl">每起API事故平均損失<br>約台幣 2,300 萬元</div><div class="ssrc">Akamai API Security Report 2025</div></div>
+      </div>
+      <div class="card" style="background:rgba(255,82,82,0.04);border-color:rgba(255,82,82,0.2);flex:1">
+        <div style="font-size:10px;color:var(--rd);font-family:'DM Mono',monospace;letter-spacing:1px;margin-bottom:8px">⚠ 國家級威脅直接命中英業達</div>
+        <div style="font-size:12px;color:var(--tx);line-height:1.7">中國國家級組織 <strong style="color:var(--rd)">Salt Typhoon / TIDrone</strong> 持續鎖定台灣科技製造業——Cloudflare 2026 Threat Report 明確點名，本季 <strong>inventectj.com</strong> 天津廠遭中國 IP 持續針對攻擊，與此情資完全吻合。</div>
+        <div style="margin-top:10px;border-left:3px solid var(--or);padding-left:12px;font-size:12px;color:var(--tx);line-height:1.7;font-weight:300">「WAF 是防線的第一層，現代攻擊者早就知道怎麼找<strong style="color:var(--or)">第二層的缺口</strong>。」</div>
+      </div>
+    </div>
+    <div class="card hl" style="display:flex;flex-direction:column">
+      <div style="font-size:11px;color:var(--or);font-family:'DM Mono',monospace;letter-spacing:1px;margin-bottom:10px">本季攻擊實例 × 全球趨勢對照</div>
+      <div style="display:grid;grid-template-rows:repeat(4,1fr);flex:1;gap:0">
+        <div style="display:grid;grid-template-columns:88px 1fr;gap:8px;padding:8px 0;border-bottom:1px solid var(--bdm);align-items:center">
+          <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--rd);line-height:1.5;text-align:center">🇨🇳🇭🇰<br>國家級</div>
+          <div class="sval"><strong>inventectj.com</strong> 天津廠遭中國IP持續攻擊（2月、3月各次）<span style="color:var(--mu);font-size:11px;display:block;margin-top:2px">→ <strong style="color:var(--rd)">Salt Typhoon / TIDrone</strong> 持續鎖定台灣科技製造業，Cloudflare 2026 Threat Report 點名</span></div>
+        </div>
+        <div style="display:grid;grid-template-columns:88px 1fr;gap:8px;padding:8px 0;border-bottom:1px solid var(--bdm);align-items:center">
+          <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--pu);line-height:1.5;text-align:center">🤖<br>AI 工具</div>
+          <div class="sval">法國、荷蘭、加拿大 IP 大量掃描 <strong>.git / .svn</strong> 目錄（4月）<span style="color:var(--mu);font-size:11px;display:block;margin-top:2px">→ AI 自動化攻擊工具典型手法，<strong style="color:var(--pu)">CYBERSEC 2026 開幕主軸</strong>「AI vs AI」重點警示</span></div>
+        </div>
+        <div style="display:grid;grid-template-columns:88px 1fr;gap:8px;padding:8px 0;border-bottom:1px solid var(--bdm);align-items:center">
+          <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--rd);line-height:1.5;text-align:center">💳<br>針對性</div>
+          <div class="sval"><strong>pay.inventec.com.cn</strong> 支付域名遭中國IP針對性攻擊<span style="color:var(--mu);font-size:11px;display:block;margin-top:2px">→ ODM 供應鏈金流資料為高價值目標，與全球製造業供應鏈攻擊趨勢完全吻合</span></div>
+        </div>
+        <div style="display:grid;grid-template-columns:88px 1fr;gap:8px;padding:8px 0;align-items:center">
+          <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--tl);line-height:1.5;text-align:center">✅<br>已部署</div>
+          <div class="sval">Noname API POC 完成，英業達 API 流量首次完整可視化<span style="color:var(--mu);font-size:11px;display:block;margin-top:2px">→ 每起 API 事故損失 <strong style="color:var(--tl)">73 萬美元</strong>，可視化是對抗 API 攻擊的第一步——英業達已領先同業</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="sf"><div class="sfl">Omni CONFIDENTIAL · FOR INVENTEC INTERNAL USE ONLY</div><div class="sfr">05 / 09</div></div>
+</div>
+
+<!-- ══ S6: CYBERSEC 2026 ══ -->
+<div class="slide" id="s6">
+<div class="sh">
+  <div class="hl"><div class="logo"><svg viewBox="0 0 22 22" fill="none" width="20" height="20"><path d="M11 2L3 6v5c0 4.5 3.5 8.7 8 10 4.5-1.3 8-5.5 8-10V6L11 2z" fill="rgba(246,130,31,0.12)" stroke="#F6821F" stroke-width="1.5"/><path d="M7.5 11l2.5 2.5 5-5" stroke="#F6821F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="font-family:'Noto Sans TC',sans-serif;font-weight:700;font-size:14px;letter-spacing:1px">歐米英泰</span></div><div class="hdiv"></div><div class="htitle">資安大會 2026 產業共識</div></div>
+  <div class="hr">2026 GLOBAL SECURITY CONSENSUS</div>
+</div>
+<div class="sb">
+  <div class="tag pu">05 · 2026 GLOBAL SECURITY CONSENSUS</div>
+  <div class="h2">2026 年全球資安圈共識，<em>與英業達現況的對照</em></div>
+  <div style="font-size:11px;color:var(--mu);line-height:1.6;margin-bottom:12px;font-weight:300">綜合 Cloudflare Threat Report、WEF Global Cybersecurity Outlook、IBM X-Force、Mandiant 及 CYBERSEC 2026 臺灣資安大會（5/5–7，南港）五大來源，2026年資安圈出現高度共識——以下每一條，都直接對應英業達的現況。</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;flex:1">
+    <div class="topic-badge rd">
+      <div class="tb-label" style="color:var(--rd)">🤖 全球共識 #1 · AI武器化</div>
+      <div class="tb-title">AI 讓攻擊者的效率提升 10 倍，防禦必須同步升級</div>
+      <div class="tb-desc">WEF 2025：<strong style="color:var(--tx)">60% 企業認為 AI 正在重塑威脅格局</strong>。Cloudflare 2026 Threat Report：DDoS 年增 +121%，自動化攻擊工具是主因。CYBERSEC 2026 開幕主軸「AI vs AI」——本季英業達 .git/.svn 掃描攻擊，正是 AI 工具的典型手法。</div>
+      <div class="tb-link">WEF Cybersecurity Outlook 2025 · Cloudflare Threat Report 2026</div>
+    </div>
+    <div class="topic-badge" style="border-color:rgba(255,82,82,0.3)">
+      <div class="tb-label" style="color:var(--rd)">🇨🇳 全球共識 #2 · 國家級APT</div>
+      <div class="tb-title">Salt Typhoon / TIDrone：台灣製造業是首要目標</div>
+      <div class="tb-desc">Mandiant / Google Threat Intelligence 確認：<strong style="color:var(--tx)">中國國家級組織持續對台灣科技製造業進行長期潛伏攻擊</strong>。Cloudflare 2026 Threat Report 點名 Salt Typhoon。本季 inventectj.com 天津廠遭中國 IP 持續攻擊——情資與現實完全吻合。</div>
+      <div class="tb-link">Google Threat Intelligence / Mandiant M-Trends 2025 · Cloudflare 2026</div>
+    </div>
+    <div class="topic-badge tl">
+      <div class="tb-label" style="color:var(--tl)">🔍 全球共識 #3 · API安全</div>
+      <div class="tb-title">API 是製造業最大的安全黑洞，平均損失 73 萬美元/件</div>
+      <div class="tb-desc">Akamai API Security Report 2025：每起 API 事故平均損失 <strong style="color:var(--tl)">73 萬美元（約台幣 2,300 萬）</strong>。IBM X-Force：製造業 API 曝險面積連年增加，多數企業沒有完整 API 流量地圖。CYBERSEC 2026 Securing AI 論壇：API 安全是製造業今年最大盲點。</div>
+      <div class="tb-link">Akamai 2025 · IBM X-Force 2025 · CYBERSEC 2026 Securing AI</div>
+    </div>
+    <div class="topic-badge bl">
+      <div class="tb-label" style="color:var(--bl)">🏭 全球共識 #4 · 製造業首衝</div>
+      <div class="tb-title">台灣是全球被攻擊最密集的地區之一</div>
+      <div class="tb-desc">Cloudflare 2026 Threat Report：台灣位居 <strong style="color:var(--tx)">亞太攻擊榜首</strong>，製造業佔 DDoS 受害者逾 <strong style="color:var(--tx)">50%</strong>。IBM X-Force 2025：製造業連續三年為全球勒索攻擊最大目標。英業達作為全球頂尖 ODM，是此趨勢的高風險族群。</div>
+      <div class="tb-link">Cloudflare 2026 Threat Report · IBM X-Force 2025</div>
+    </div>
+    <div class="topic-badge" style="border-color:rgba(167,139,250,0.3)">
+      <div class="tb-label" style="color:var(--pu)">🔐 全球共識 #5 · 零信任落地</div>
+      <div class="tb-title">零信任從理念走向實體落地，2026年是關鍵轉折</div>
+      <div class="tb-desc">2026年零信任架構已從「應該做」進入「正在執行」階段。全球資安研究機構一致確認：SASE 與零信任是本年度企業最重要的資安投資方向。CYBERSEC 2026 零信任論壇：<strong style="color:var(--tx)">OT 邊界整合與跨廠區存取控管</strong>是今年展場最熱議題——英業達全球 5 個生產基地的跨廠安全需求，正是此趨勢最迫切的實踐場景。</div>
+      <div class="tb-link">Industry Consensus 2025–2026 · CYBERSEC 2026 零信任論壇</div>
+    </div>
+    <div class="topic-badge" style="background:rgba(246,130,31,0.06);border-color:var(--bd)">
+      <div class="tb-label" style="color:var(--or)">💡 歐米的觀察</div>
+      <div class="tb-title" style="color:var(--or)">全球趨勢說的，英業達今季已親身驗證</div>
+      <div class="tb-desc" style="color:var(--mu)">國家級 APT 攻擊 ✓ 本季實際發生。AI 自動化掃描 ✓ 4月親歷。API 流量黑洞 ✓ Noname POC 首次照亮。<strong style="color:var(--tx)">全球資安圈討論的不是假設，是英業達這一季真實經歷的事情。</strong></div>
+      <div class="tb-link" style="color:var(--or)">歐米隨時可以安排下一步架構討論</div>
+    </div>
+  </div>
+</div>
+<div class="sf"><div class="sfl">Omni CONFIDENTIAL · FOR INVENTEC INTERNAL USE ONLY</div><div class="sfr">06 / 09</div></div>
+</div>
+
+<!-- ══ S7: CLOUDFLARE ROADMAP ══ -->
+<div class="slide" id="s7">
+<div class="sh">
+  <div class="hl"><div class="logo"><svg viewBox="0 0 22 22" fill="none" width="20" height="20"><path d="M11 2L3 6v5c0 4.5 3.5 8.7 8 10 4.5-1.3 8-5.5 8-10V6L11 2z" fill="rgba(246,130,31,0.12)" stroke="#F6821F" stroke-width="1.5"/><path d="M7.5 11l2.5 2.5 5-5" stroke="#F6821F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="font-family:'Noto Sans TC',sans-serif;font-weight:700;font-size:14px;letter-spacing:1px">歐米英泰</span></div><div class="hdiv"></div><div class="htitle">Cloudflare 近期重大更新</div></div>
+  <div class="hr">CLOUDFLARE UPDATES 2026</div>
+</div>
+<div class="sb">
+  <div class="tag pu">06 · CLOUDFLARE ROADMAP</div>
+  <div class="h2">英業達用的 Cloudflare，<em>這一季做了什麼新的事</em></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;flex:1;margin-top:16px">
+    <div class="topic-badge" style="border-color:rgba(246,130,31,0.25)">
+      <div class="tb-label" style="color:var(--or)">🛡 WAF 持續升級 · 本季內</div>
+      <div class="tb-title">每週自動更新規則，比你快一步</div>
+      <div class="tb-desc">本季 WAF 更新涵蓋：<strong style="color:var(--tx)">Fortinet 身份驗證繞過漏洞</strong>（CVE-2025-59718）、<strong style="color:var(--tx)">React/Next.js 嚴重 RCE</strong>（CVSS 10.0）、<strong style="color:var(--tx)">MCP Server RCE</strong>（CVE-2026-23744）、Magento 惡意上傳——全部在漏洞公開當天自動部署保護，英業達無需任何操作。</div>
+      <div class="tb-link">Cloudflare WAF Changelog 2026 Q1</div>
+    </div>
+    <div class="topic-badge tl">
+      <div class="tb-label" style="color:var(--tl)">🔐 後量子加密 · 2026/02</div>
+      <div class="tb-title">全球首個完整後量子 SASE 平台</div>
+      <div class="tb-desc">2026年2月，Cloudflare 宣布成為<strong style="color:var(--tx)">全球第一個全棧後量子加密 SASE 平台</strong>，涵蓋 ZTNA、SWG、WAN 全部元件。即使量子電腦在未來突破加密，英業達的資料今天就已受到保護——<strong style="color:var(--tl)">「今天投資，防禦未來威脅」</strong>。</div>
+      <div class="tb-link">Cloudflare Press Release · 2026-02-23</div>
+    </div>
+    <div class="topic-badge bl">
+      <div class="tb-label" style="color:var(--bl)">🤖 AI 安全防護 · 2026 Agents Week</div>
+      <div class="tb-title">AI 時代的新型攻擊，Cloudflare 已有防禦</div>
+      <div class="tb-desc">2026年4月 Agents Week，Cloudflare 發布<strong style="color:var(--tx)"> Shadow MCP 偵測規則</strong>、<strong style="color:var(--tx)">AI Gateway 統一管控</strong>（攔截員工誤傳敏感資料至 ChatGPT 等 AI 工具）、非人類身份管理（AI Agent 的存取控管）——英業達導入 AI 工具的同時，這些保護機制已就位。</div>
+      <div class="tb-link">Cloudflare Agents Week 2026 · 4/14–4/20</div>
+    </div>
+    <div class="topic-badge rd">
+      <div class="tb-label" style="color:var(--rd)">🎯 Gartner & Forrester 雙認證</div>
+      <div class="tb-title">獨立機構驗證：Cloudflare 是業界領導者</div>
+      <div class="tb-desc">Cloudflare One 獲選 <strong style="color:var(--tx)">2025 Gartner SASE 魔力象限 Visionary</strong>，以及 <strong style="color:var(--tx)">Forrester Zero Trust Platforms Q3 2025 第二高 Strategy 分數</strong>。這代表英業達所使用的 Cloudflare，是全球主要分析機構認可的頂尖平台，不是小廠。</div>
+      <div class="tb-link">Gartner MQ 2025 · Forrester Wave Q3 2025</div>
+    </div>
+    <div class="topic-badge" style="border-color:rgba(167,139,250,0.3)">
+      <div class="tb-label" style="color:var(--pu)">🔑 TLS 憑證效期縮短 · 緊迫趨勢</div>
+      <div class="tb-title">47 天強制更新即將到來，手動管理已走入死路</div>
+      <div class="tb-desc">CA/Browser Forum 2025年3月通過決議：TLS 憑證效期逐步縮短——<strong style="color:var(--tx)">2026年降至 200 天、2027年 100 天、2029年全面 47 天</strong>。每 47 天手動更新一次是不可能的任務。<strong style="color:var(--pu)">Cloudflare 管理的域名：自動更新，無需操作。</strong>英業達其他伺服器與內部系統的憑證——歐米有完整自動化方案。</div>
+      <div class="tb-link">CA/Browser Forum Ballot SC-081 · 2025-03 · 歐米憑證自動化服務</div>
+    </div>
+    <div class="topic-badge" style="background:rgba(246,130,31,0.06);border-color:var(--bd)">
+      <div class="tb-label" style="color:var(--or)">💡 這些更新對英業達的意義</div>
+      <div class="tb-title" style="color:var(--or)">你已在用的 WAF，其實一直在進化</div>
+      <div class="tb-desc" style="color:var(--mu)">很多客戶不知道：Cloudflare 的 Managed Rules <strong style="color:var(--tx)">每週都在更新</strong>，漏洞公開當天就部署防護。本季英業達的防線擋下這麼多攻擊，有一大部分是 Cloudflare 自動升級的功勞——而歐米在背後確保這些規則的設定正確。</div>
+      <div class="tb-link" style="color:var(--or)">歐米 × Cloudflare：持續進化的防護</div>
+    </div>
+  </div>
+</div>
+<div class="sf"><div class="sfl">Omni CONFIDENTIAL · FOR INVENTEC INTERNAL USE ONLY</div><div class="sfr">07 / 09</div></div>
+</div>
+
+<!-- ══ S8: OCTO PLATFORM ══ -->
+<div class="slide" id="s8">
+<div class="sh">
+  <div class="hl"><div class="logo"><svg viewBox="0 0 22 22" fill="none" width="20" height="20"><path d="M11 2L3 6v5c0 4.5 3.5 8.7 8 10 4.5-1.3 8-5.5 8-10V6L11 2z" fill="rgba(246,130,31,0.12)" stroke="#F6821F" stroke-width="1.5"/><path d="M7.5 11l2.5 2.5 5-5" stroke="#F6821F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="font-family:'Noto Sans TC',sans-serif;font-weight:700;font-size:14px;letter-spacing:1px">歐米英泰</span></div><div class="hdiv"></div><div class="htitle">歐米自研 OCTO 維運平台</div></div>
+  <div class="hr">OIMC OCTO PLATFORM</div>
+</div>
+<div class="sb">
+  <div class="tag bl">07 · OUR INVESTMENT — OCTO</div>
+  <div class="h2">英業達得到的，<em>不是工具，是看得見的保障</em></div>
+  <div class="g2" style="margin-top:14px">
+    <div style="display:flex;flex-direction:column;gap:9px">
+      <div style="padding:10px 0;border-bottom:1px solid var(--bdm)">
+        <div style="font-size:10px;color:var(--mu);font-family:'DM Mono',monospace;letter-spacing:1px;margin-bottom:8px">有 OCTO 之前 vs 之後</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div style="font-size:11px;padding:8px 12px;background:rgba(255,255,255,0.02);border:1px solid var(--bdm);border-radius:2px;color:var(--mu);line-height:1.6">😐 問題發生 → 客戶察覺 → 打電話 → 工程師查 → 隔天回覆</div>
+          <div style="font-size:11px;padding:8px 12px;background:rgba(246,130,31,0.05);border:1px solid var(--bd);border-radius:2px;color:var(--tx);line-height:1.6">⚡ 歐米工程師主動巡查 → <strong style="color:var(--or)">提早發現異常</strong> → 問題排除 → 英業達收到完整結案通報</div>
+        </div>
+      </div>
+      <div class="feat"><div class="ficon">👁</div><div><div class="ftitle">每一件服務，英業達都看得見</div><div class="fdesc">本季 21 件服務事件，每件都有開始時間、結束時間、完整處理紀錄——可隨時稽核，不是口頭保證。</div></div></div>
+      <div class="feat"><div class="ficon rd">🔒</div><div><div class="ftitle">SLA 不靠人情，系統強制執行</div><div class="fdesc">回應時間若有延誤，系統自動通知——不靠工程師記憶。本季 100% 結案率、零未結案，是機制的成果，不是運氣。</div></div></div>
+      <div class="feat"><div class="ficon tl">🛡</div><div><div class="ftitle">攻擊在你不知情的情況下就被擋掉</div><div class="fdesc">本季 inventectj.com 天津廠遭中國 IP 持續針對，英業達業務系統從未感知到異常——「最好的資安事件，是客戶不知情的情況下就已被處理掉的。」</div></div></div>
+      <div class="feat" style="border-bottom:none"><div class="ficon bl">♻</div><div><div class="ftitle">工程師換人，服務品質不會退步</div><div class="fdesc">每次事件經驗自動沉澱進知識庫。英業達碰過的 522 error、Web Shell、版本控制掃描，下次發生時歐米回應更快、更準。</div></div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div class="card" style="background:rgba(0,212,170,0.04);border-color:rgba(0,212,170,0.2)">
+        <div style="font-size:10px;color:var(--tl);font-family:'DM Mono',monospace;letter-spacing:1px;margin-bottom:8px">本季英業達具體得到的</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--tl);font-size:12px;flex-shrink:0">✓</span><div style="font-size:12px;line-height:1.6">21 件需求<strong style="color:var(--tl)">全數結案</strong>：域名管理、規則配置、帳號管理、522 排查</div></div>
+          <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--tl);font-size:12px;flex-shrink:0">✓</span><div style="font-size:12px;line-height:1.6">多國攻擊<strong style="color:var(--tl)">全數阻擋</strong>，對外服務<strong style="color:var(--tl)">零中斷</strong></div></div>
+          <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--tl);font-size:12px;flex-shrink:0">✓</span><div style="font-size:12px;line-height:1.6">合約到期主動預警，<strong style="color:var(--tl)">不讓保護出現空窗</strong></div></div>
+          <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--or);font-size:12px;flex-shrink:0">→</span><div style="font-size:12px;line-height:1.6;color:var(--mu)">aimobile Malware 升級建議已記錄追蹤，等待英業達確認執行</div></div>
+        </div>
+      </div>
+      <div class="card hl" style="flex:1;display:flex;flex-direction:column;justify-content:center">
+        <div style="font-size:10px;color:var(--or);font-family:'DM Mono',monospace;letter-spacing:1px;margin-bottom:8px">為什麼防禦必須自動化</div>
+        <div style="font-size:12px;color:var(--tx);line-height:1.85;font-weight:300">Cloudflare 全球每天攔截超過 <strong style="color:var(--or)">2,300 億次</strong>威脅，平均每小時自動緩解 <strong style="color:var(--or)">5,376 次</strong> DDoS 攻擊。現代攻擊已完全自動化——<strong style="color:var(--or)">防禦如果還靠人工，根本跟不上</strong>。歐米工程師的主動巡查，是現階段最可靠的第一道人工防線。</div>
+        <div style="font-size:9px;color:var(--mu);font-family:'DM Mono',monospace;margin-top:6px;opacity:0.6">Cloudflare Threat Report 2026 / DDoS Q4 2025</div>
+        <div style="margin-top:8px;padding:6px 10px;background:rgba(167,139,250,0.06);border:1px solid rgba(167,139,250,0.2);border-radius:2px">
+          <div style="font-size:9px;color:var(--pu);font-family:'DM Mono',monospace;letter-spacing:1px;margin-bottom:3px">🔭 OCTO 未來藍圖</div>
+          <div style="font-size:11px;color:var(--mu);line-height:1.6">系統自動異常偵測與即時通報功能正在開發中——屆時攻擊發生的當下，OCTO 將直接主動通報，無需等待工程師巡查。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="sf"><div class="sfl">Omni CONFIDENTIAL · FOR INVENTEC INTERNAL USE ONLY</div><div class="sfr">08 / 09</div></div>
+</div>
+
+<!-- ══ S9: NEXT STEPS ══ -->
+<div class="slide" id="s9">
+<div class="sh">
+  <div class="hl"><div class="logo"><svg viewBox="0 0 22 22" fill="none" width="20" height="20"><path d="M11 2L3 6v5c0 4.5 3.5 8.7 8 10 4.5-1.3 8-5.5 8-10V6L11 2z" fill="rgba(246,130,31,0.12)" stroke="#F6821F" stroke-width="1.5"/><path d="M7.5 11l2.5 2.5 5-5" stroke="#F6821F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="font-family:'Noto Sans TC',sans-serif;font-weight:700;font-size:14px;letter-spacing:1px">歐米英泰</span></div><div class="hdiv"></div><div class="htitle">下一季方向</div></div>
+  <div class="hr">NEXT STEPS</div>
+</div>
+<div class="sb">
+  <div class="tag">08 · LOOKING AHEAD</div>
+  <div class="h2">下一季，<em>我們建議優先處理這幾件事</em></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px;flex:1;align-content:start">
+    <div class="nitem" style="border-color:rgba(255,82,82,0.3);background:rgba(255,82,82,0.04)">
+      <div class="nnum" style="color:var(--rd);opacity:0.9">01</div>
+      <div><div class="ntitle" style="color:var(--rd)">aimobile — Malware/Web Shell 持續觀察</div><div class="ndesc">4月偵測到加拿大 IP 惡意行為，屬 Managed Ruleset 範疇，Cloudflare 將視規則成熟度自動調整。前兩月未見相同情況，建議後續持續觀察；英業達如有疑慮，可<strong style="color:var(--rd)">自行評估</strong>是否手動切換封鎖。</div></div>
+    </div>
+    <div class="nitem" style="border-color:rgba(167,139,250,0.25);background:rgba(167,139,250,0.04)">
+      <div class="nnum" style="color:var(--pu);opacity:0.9">03</div>
+      <div><div class="ntitle" style="color:var(--pu)">TLS 憑證效期縮短——非 Cloudflare 域名，準備好了嗎？</div><div class="ndesc">2029年全面縮短至 <strong style="color:var(--pu)">47 天</strong>，Cloudflare 域名自動更新，其他伺服器憑證需提早規劃。<strong style="color:var(--pu)">歐米有完整自動化方案。</strong></div></div>
+    </div>
+    <div class="nitem">
+      <div class="nnum">01</div>
+      <div><div class="ntitle">.git / .svn 版本控制目錄封鎖</div><div class="ndesc">4月多國 IP 持續自動化掃描，AI 攻擊工具典型手法。建議建立防護規則，避免原始碼外洩。</div></div>
+    </div>
+    <div class="nitem" style="border-color:rgba(0,212,170,0.25);background:rgba(0,212,170,0.04)">
+      <div class="nnum" style="color:var(--tl);opacity:0.8">↗</div>
+      <div><div class="ntitle" style="color:var(--tl)">【建議深入討論】API 安全深度評估——Noname POC 後，下一步？</div><div class="ndesc">流量地圖點亮後，才是真正考驗的開始。是否有異常 API？影子 API？CYBERSEC 2026 指出這是製造業最大資安盲點。歐米建議安排專題報告。</div></div>
+    </div>
+    <div class="nitem">
+      <div class="nnum">02</div>
+      <div><div class="ntitle">源站穩定性強化——減少 522 error</div><div class="ndesc">本季多次 522 與攻擊事件混在一起難以區分。建議強化源站容量或搭配緩存策略，讓防護事件更清晰。</div></div>
+    </div>
+    <div class="nitem" style="border-color:rgba(167,139,250,0.25);background:rgba(167,139,250,0.04)">
+      <div class="nnum" style="color:var(--pu);opacity:0.8">↗</div>
+      <div><div class="ntitle" style="color:var(--pu)">【架構延伸方向】零信任架構——英業達已握有起點門票</div><div class="ndesc">WAF + Noname API 可視化，正是零信任架構最扎實的起跑點。CYBERSEC 2026 最熱門議題。歐米已規劃「架構整合評估」，適合安排深聊。</div></div>
+    </div>
+    <div class="nitem" style="border-color:rgba(0,212,170,0.25);background:rgba(0,212,170,0.04);grid-column:span 2">
+      <div class="nnum" style="color:var(--tl);opacity:0.8">04</div>
+      <div style="width:100%"><div class="ntitle" style="color:var(--tl)">Cloud 節費評估——歐米協助盤點雲端資源使用效率</div><div class="ndesc">隨著雲端服務費用持續增長，歐米可協助英業達進行雲端資源使用現況審計，找出重複、閒置或超額配置的資源項目，評估最佳化方案。此項服務不影響現有防護架構，建議下季啟動初步盤點。</div></div>
+    </div>
+  </div>
+  <div class="qblock" style="margin-top:8px;padding-left:14px;border-left-width:2px">
+    「英業達這一季的攻防紀錄，已經是最完整的起點說明書——<em>下一步怎麼走，歐米備好了完整方案，您隨時一聲，我們立刻開始。</em>」
+  </div>
+</div>
+<div class="sf"><div class="sfl">Omni CONFIDENTIAL · FOR INVENTEC INTERNAL USE ONLY</div><div class="sfr">09 / 09</div></div>
+</div>
+
+</div>
+</div></div>
+
+<div id="nav">
+  <button class="nbtn" id="prev">←</button>
+  <div class="dots" id="dots"></div>
+  <button class="nbtn" id="next">→</button>
+  <div class="scnt" id="scnt">1 / 9</div>
+  <button id="ap-btn" title="自動播放 [P]" onclick="toggleAP()">▶</button>
+</div>
+<div id="hint">→ / 空白鍵：逐段顯示 · ← 退回 · 圓點跳頁 · P 自動播放</div>
+</div>
+
+<script>
+const slides  = document.querySelectorAll('.slide');
+const dotsEl  = document.getElementById('dots');
+const pbar    = document.getElementById('pbar');
+const apBadge = document.getElementById('ap-badge');
+const apBtn   = document.getElementById('ap-btn');
+const total   = slides.length;
+
+// ── Build unit detection ────────────────────────────────
+// BOX_SEL: visually distinct "框框" that should pop in one by one
+// HEAD_SEL: heading/tag elements — always individual units
+const BOX_SEL  = '.card,.stat,.topic-badge,.nitem,.feat';
+const HEAD_SEL = '.tag,.h2,.qblock';
+
+function getBuildUnits(slideEl) {
+  const sb = slideEl.querySelector('.sb');
+  if (!sb) return [];
+  const units = [];
+  for (const child of sb.children) {
+    if (child.classList.contains('cover-bg')) continue; // skip decorative
+    if (child.matches(HEAD_SEL + ',' + BOX_SEL)) {
+      units.push(child);                    // heading or box → direct unit
+    } else if (child.querySelector(BOX_SEL)) {
+      collectBoxes(child, units);           // container holding boxes → expand
+    } else {
+      if (child.children.length || child.textContent.trim())
+        units.push(child);                  // plain content div → one unit
+    }
+  }
+  return units;
+}
+
+// Recursively collect BOX_SEL descendants in DOM order;
+// non-box children with content are treated as one unit each.
+function collectBoxes(el, units) {
+  for (const child of el.children) {
+    if (child.matches(BOX_SEL)) {
+      units.push(child);
+    } else if (child.querySelector(BOX_SEL)) {
+      collectBoxes(child, units);
+    } else if (child.children.length || child.textContent.trim()) {
+      units.push(child);                    // section header, row group, etc.
+    }
+  }
+}
+
+// Pre-compute build units per slide
+const kids    = Array.from(slides).map(getBuildUnits);
+const maxStep = i => kids[i].length;
+
+let cur = 0, step = 0, busy = false, ap = false, apTimer = null;
+const AP_MS = 3000;
+
+// ── Build dots ─────────────────────────────────────────
+slides.forEach((_, i) => {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.onclick = () => jumpTo(i);
+  dotsEl.appendChild(d);
+});
+
+// ── Helpers ────────────────────────────────────────────
+function fmtComma(n) {
+  return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+function updateDots() {
+  [...dotsEl.children].forEach((d, i) => d.classList.toggle('active', i === cur));
+  document.getElementById('scnt').textContent = (cur + 1) + ' / ' + total;
+  document.getElementById('prev').disabled = (cur === 0 && step === 0);
+  document.getElementById('next').disabled = (cur === total - 1 && step === maxStep(cur));
+}
+
+function updateBar() {
+  let done = 0, ttl = 0;
+  kids.forEach((k, i) => { ttl += k.length; if (i < cur) done += k.length; });
+  pbar.style.width = ((done + step) / ttl * 100) + '%';
+}
+
+// Count-up for .snum within a revealed element
+function animStats(container) {
+  container.querySelectorAll('.snum').forEach(snum => {
+    let tNode = null;
+    for (const n of snum.childNodes) {
+      if (n.nodeType === 3 && /\d/.test(n.textContent)) { tNode = n; break; }
+    }
+    if (!tNode) return;
+    const raw = tNode.textContent.trim();
+    const m = raw.match(/^([+]?)([\d,]+)$/);
+    if (!m) return;
+    const prefix = m[1], hasComma = m[2].includes(',');
+    const target = parseInt(m[2].replace(/,/g, ''));
+    if (!target) return;
+    const dur = 900, t0 = performance.now() + 280;
+    const tick = now => {
+      if (now < t0) { requestAnimationFrame(tick); return; }
+      const p = Math.min((now - t0) / dur, 1);
+      const v = Math.round((1 - Math.pow(1 - p, 3)) * target);
+      tNode.textContent = prefix + (hasComma ? fmtComma(v) : v);
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
+}
+
+// Show first n build units; animate the n-th if animLast
+function reveal(slideIdx, n, animLast) {
+  kids[slideIdx].forEach((el, i) => {
+    if (i < n) {
+      if (i === n - 1 && animLast) {
+        el.style.opacity = '0';
+        el.style.animation = 'none';
+        void el.offsetWidth;
+        el.style.animation = 'fadeUp 0.44s ease forwards';
+        animStats(el);
+      } else {
+        el.style.opacity = '1';
+        el.style.animation = 'none';
+      }
+    } else {
+      el.style.opacity = '0';
+      el.style.animation = 'none';
+    }
+  });
+  updateBar();
+  updateDots();
+}
+
+function hideAll(slideIdx) {
+  kids[slideIdx].forEach(el => { el.style.opacity = '0'; el.style.animation = 'none'; });
+}
+
+// ── Navigation ─────────────────────────────────────────
+function advance() {
+  if (busy) return;
+  if (step < maxStep(cur)) {
+    step++;
+    reveal(cur, step, true);
+    if (ap) resetAP();
+  } else if (cur < total - 1) {
+    slideTransition(cur + 1, false);
+  } else if (ap) {
+    toggleAP();
+  }
+}
+
+function retreat() {
+  if (busy) return;
+  if (step > 0) {
+    step--;
+    reveal(cur, step, false);
+    if (ap) resetAP();
+  } else if (cur > 0) {
+    slideTransition(cur - 1, true);
+  }
+}
+
+function slideTransition(n, showAll) {
+  if (busy) return;
+  busy = true;
+  const dir = n > cur ? 1 : -1;
+  const oldS = slides[cur], newS = slides[n];
+
+  hideAll(n);
+  oldS.classList.remove('active');
+  oldS.classList.add(dir > 0 ? 'anm-xl' : 'anm-xr');
+  newS.classList.add(dir > 0 ? 'anm-er' : 'anm-el');
+
+  cur = n;
+  step = showAll ? maxStep(cur) : 0;
+  if (ap) resetAP();
+
+  setTimeout(() => {
+    oldS.classList.remove('anm-xl', 'anm-xr');
+    newS.classList.remove('anm-er', 'anm-el');
+    newS.classList.add('active');
+    if (showAll) reveal(cur, step, false);
+    else { updateBar(); updateDots(); }
+    busy = false;
+  }, 430);
+}
+
+function jumpTo(n) {
+  if (n === cur || busy) return;
+  slideTransition(n, true);
+}
+
+// ── Auto-play ──────────────────────────────────────────
+function toggleAP() {
+  ap = !ap;
+  apBadge.classList.toggle('on', ap);
+  apBtn.classList.toggle('on', ap);
+  apBtn.textContent = ap ? '⏸' : '▶';
+  if (ap) resetAP(); else clearInterval(apTimer);
+}
+
+function resetAP() {
+  clearInterval(apTimer);
+  apTimer = setInterval(advance, AP_MS);
+}
+
+// ── Keyboard ───────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); advance(); }
+  if (e.key === 'ArrowLeft')                   { e.preventDefault(); retreat(); }
+  if (e.key === 'p' || e.key === 'P')           toggleAP();
+  if (e.key === 'Escape' && ap)                 toggleAP();
+});
+
+document.getElementById('prev').onclick = retreat;
+document.getElementById('next').onclick = advance;
+
+// ── Scale ──────────────────────────────────────────────
+function scale() {
+  const s = Math.min(window.innerWidth / 1280, window.innerHeight / 820) * 0.95;
+  document.getElementById('scaler').style.transform = 'scale(' + s + ')';
+}
+scale();
+window.addEventListener('resize', scale);
+
+// ── Init ───────────────────────────────────────────────
+hideAll(0);
+updateBar();
+updateDots();
+</script>
+</body>
+</html>
